@@ -17,6 +17,7 @@ db = SQLAlchemy(app)
 
 class KPMP(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    pack_id = db.Column(db.Text, nullable=False)
     receive_time = db.Column(db.DateTime, nullable=False)
     temp = db.Column(db.Float, nullable=True)
     hum = db.Column(db.Float, nullable=True)
@@ -129,14 +130,14 @@ def plot_data():
     con.close()
 
     x_data = df[df.columns[1]].values.tolist()
-    y_data = df[df.columns[2]].values.tolist()
+    y_data = df[df.columns[5]].values.tolist()
 
     return render_template("data_plot.html",
                            date_year=datetime.date.today().year,
                            x_data=x_data,
                            y_data=y_data,
                            x_label=df.columns[1],
-                           y_label=df.columns[2])
+                           y_label=df.columns[5])
 
 @app.route("/plot-all")
 def plot_all():
@@ -185,6 +186,7 @@ def KPMP_data():
 
         try:
             new_data = KPMP(receive_time=datetime.datetime.today(),
+                               pack_id=data["pack_id"],
                                temp=data["temperature"],
                                hum=data["humidility"],
                                acc_x=data["acc_x"],
@@ -207,7 +209,7 @@ def KPMP_choice():
         if request.form.get('num') == '':
             return redirect(url_for('home'))
         # jeśli tych danych nie ma w bazie
-        elif KPMP.query.filter_by(id=request.form.get('num')).first() is None:
+        elif KPMP.query.filter_by(pack_id=request.form.get('num')).first() is None:
             print("nie ma tego w bazie")
             return redirect(url_for('home'))
         # jak wszystko git
