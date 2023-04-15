@@ -57,7 +57,11 @@ function plot_data(ctx, data, title="", x_label="", y_label="") {
                     zoom:{
                         wheel:{
                             enabled: true
-                        }
+                        },
+                        drag:{
+                            enabled: true
+                        },
+                        mode: 'xy'
                     }
                 }
             }
