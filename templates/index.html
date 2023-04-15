@@ -9,7 +9,13 @@
     {% include "header.html" %}
     <h1><big><center> Kto Przerzucił Moją Paczkę?? </center></big></h1>
     <h3> Wprowadź numer swojej paczki
-    <input type="text" id="fname" name="fname"><br><br></h3>
+    <form action = "http://localhost:5000/KPMP_choice" method = "post">
+        <p>Enter Name:</p>
+        <p><input type = "text" name = "nm" /></p>
+        <p><input type = "submit" value = "submit" /></p>
+    </form>
+    <!-- <input type="text" id="fname" name="fname"> -->
+    <!-- <button type="button" onclick="{{url_for('KPMP_choice')}}">Sprawdź status!</button></h3> -->
     {% include "footer.html" %}
 </body>
 </html>

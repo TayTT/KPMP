@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import sqlite3
@@ -199,6 +199,13 @@ def KPMP_data():
             return jsonify(response={"error": f"Adding KPMP data failed. Error description {e}"}), 404
         else:
             return jsonify(response={"success": "KPMP data added successfully"}), 200
+
+@app.route('/KPMP_choice', methods=['POST', 'GET'])
+def KPMP_choice():
+   if request.method == 'POST':
+      return redirect(url_for('plot_data'))
+   else:
+      return redirect(url_for('plot_data'))
 
 
 if __name__ == '__main__':
