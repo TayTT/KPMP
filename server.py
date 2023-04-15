@@ -202,11 +202,19 @@ def KPMP_data():
 
 @app.route('/KPMP_choice', methods=['POST', 'GET'])
 def KPMP_choice():
-   if request.method == 'POST':
-      return redirect(url_for('plot_data'))
-   else:
-      return redirect(url_for('plot_data'))
-
+    if request.method == 'POST':
+        # jeśli pole jest puste
+        if request.form.get('num') == '':
+            return redirect(url_for('home'))
+        # jeśli tych danych nie ma w bazie
+        elif KPMP.query.filter_by(id=request.form.get('num')).first() is None:
+            print("nie ma tego w bazie")
+            return redirect(url_for('home'))
+        # jak wszystko git
+        else:
+            return redirect(url_for('plot_data'))
+    else:
+        return redirect(url_for('plot_data'))
 
 if __name__ == '__main__':
     # app.run(host='192.168.1.100', port=5000)
