@@ -28,9 +28,8 @@
     {% include "footer.html" %}
 </body>
 <script>
-    plot_weatherData(document.getElementById('myChart1'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
-    plot_weatherData(document.getElementById('myChart2'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
-    plot_weatherData(document.getElementById('myChart3'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
-    plot_weatherData(document.getElementById('myChart4'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
+    plot_weatherData(document.getElementById('myChart1'), {{x_data|tojson|safe}}, {{y_data_temp|tojson|safe}}, '{{legend_temp}}', '{{title}}', '{{x_label}}', '{{y_label_temp}}')
+    plot_magnData(document.getElementById('myChart2'), {{x_data_magn|tojson|safe}}, {{y_data_magn|tojson|safe}}, {{legend_magn|tojson|safe}}, '{{title}}', '{{x_label}}', '{{y_label_magn}}')
+    plot_weatherData(document.getElementById('myChart3'), {{x_data|tojson|safe}}, {{y_data_hum|tojson|safe}}, '{{legend_hum}}', '{{title}}', '{{x_label}}', '{{y_label_hum}}')
 </script>
 </html>

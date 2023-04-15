@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import datetime
 import sqlite3
 import pandas as pd
+import numpy as np
 
 # create Flask app
 app = Flask(__name__)
@@ -61,20 +62,29 @@ def plot_data():
 
     print(df)
     con.close()
+    df["throw"] = np.zeros(len(df))
+    t = [1,2]
+    df["throw"].iloc[t] = 1
+    vals = df["mag_diff"].iloc[t].values.tolist()
 
     x_data = df[df.columns[2]].values.tolist()
     y_data_temp = df[df.columns[4]].values.tolist()
     y_data_hum = df[df.columns[5]].values.tolist()
-    y_data_magn = [df[df.columns[i]].values.tolist() for i in range(3, 5)]
+    #y_data_magn = [df[df.columns[i]].values.tolist() for i in range(3, 5)]
+    y_data_magn = [df[df.columns[3]].values.tolist(), df["mag_diff"].iloc[t].values.tolist()]
+    new_list = [x_data[a] for a in t]
+    x_data_magn = [x_data, new_list]
+    print(y_data_magn)
 
 
     return render_template("data_plot.html",
                            date_year=datetime.date.today().year,
                            x_data=x_data,
+                           x_data_magn =x_data_magn,
                            y_data_magn=y_data_magn,
                            legend_magn=["magnituda", "magnituda"],
                            y_data_temp=y_data_temp, 
-                           legend_temp="temeratura",
+                           legend_temp="temperatura",
                            y_data_hum=y_data_hum,
                            legend_hum="wilgotność",
                            x_label=df.columns[1],
