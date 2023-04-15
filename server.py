@@ -59,7 +59,7 @@ def home():
 @app.route("/plot-data/<num>", methods=["GET"])
 def plot_data(num):
     con = sqlite3.connect("instance/KPMP.db")
-    df = pd.read_sql_query(f"SELECT * from KPMP WHERE pack_id = {num}", con)
+    df = pd.read_sql_query(f"SELECT * from KPMP WHERE pack_id = '{num}'", con)
     con.close()
     peaks_idx = find_peaks_magn(df)
 
