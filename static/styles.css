@@ -24,10 +24,10 @@ tr:nth-child(even) {
     background-color: #434347;
 }
 
-tr:hover {
+/*tr:hover {
     background-color: lightgray;
     color: black;
-}
+}*/
 
 a {
     color: lightblue;
