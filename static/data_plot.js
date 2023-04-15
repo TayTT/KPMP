@@ -19,7 +19,8 @@ function plot_data(ctx, data, title="", x_label="", y_label="") {
                     },
                     border: {
                         color: '#aaaaaa'
-                    }
+                    },
+                    
                 },
                 x: {
                     title: {
@@ -51,6 +52,13 @@ function plot_data(ctx, data, title="", x_label="", y_label="") {
                     display: true,
                     text: title,
                     color: '#ffffff'
+                },
+                zoom: {
+                    zoom:{
+                        wheel:{
+                            enabled: true
+                        }
+                    }
                 }
             }
         }

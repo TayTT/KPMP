@@ -27,9 +27,11 @@
     <a href="{{url_for('home')}}">Return to home</a>
     {% include "footer.html" %}
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js" integrity="sha512-wUYbRPLV5zs6IqvWd88HIqZU/b8TBx+I8LEioQ/UC0t5EMCLApqhIAnUg7EsAzdbhhdgW07TqYDdH3QEXRcPOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     plot_weatherData(document.getElementById('myChart1'), {{x_data|tojson|safe}}, {{y_data_temp|tojson|safe}}, '{{legend_temp}}', '{{title}}', '{{x_label}}', '{{y_label_temp}}')
     plot_magnData(document.getElementById('myChart2'), {{x_data_magn|tojson|safe}}, {{y_data_magn|tojson|safe}}, {{legend_magn|tojson|safe}}, '{{title}}', '{{x_label}}', '{{y_label_magn}}')
     plot_weatherData(document.getElementById('myChart3'), {{x_data|tojson|safe}}, {{y_data_hum|tojson|safe}}, '{{legend_hum}}', '{{title}}', '{{x_label}}', '{{y_label_hum}}')
+Chart.register(zoomPlugin);
 </script>
 </html>
