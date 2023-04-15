@@ -29,7 +29,7 @@
 </body>
 <script>
     plot_weatherData(document.getElementById('myChart1'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
-    plot_weatherData(document.getElementById('myChart2'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
+    plot_multipleData(document.getElementById('myChart2'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
     plot_weatherData(document.getElementById('myChart3'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
     plot_weatherData(document.getElementById('myChart4'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
 </script>

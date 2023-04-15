@@ -16,7 +16,7 @@
     {% include "footer.html" %}
 </body>
 <script>
-    plot_multipleData(document.getElementById('myChart'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}},
+    plot_multipleData(document.getElementById('myChart2'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}},
         {{legend|tojson|safe}}, '{{title}}', '{{x_label}}', '{{y_label}}')
 </script>
 </html>
