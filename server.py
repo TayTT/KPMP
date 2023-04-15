@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class Package(db.Model):
+class KPNP(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     receive_time = db.Column(db.DateTime, nullable=False)
     temp = db.Column(db.Float, nullable=True)
