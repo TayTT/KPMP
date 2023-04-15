@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Station</title>
+    <link rel="stylesheet", href="{{url_for('static', filename='styles.css')}}">
+</head>
+<body>
+    {% include "header.html" %}
+    <h1>[KPNP] Kto przerzucił moją paczkę?? [KPNP]</h1>
+    <h2><a href="{{url_for('get_all_data')}}">GET all data as JSON</a></h2>
+    <h2><a href="{{url_for('get_last_data')}}">GET last data as JSON</a></h2>
+    <h2><a href="{{url_for('plot_data')}}">Plot weather data</a></h2>
+    <h2><a href="{{url_for('plot_last_24hours')}}">Plot last 24 hours</a></h2>
+    <h2><a href="{{url_for('plot_temp_24hours')}}">Plot temperature last 24 hours</a></h2>
+    <table>
+        <caption>last {{ num_of_values }} records</caption>
+        <tr>
+            {% for i in range(0, num_of_elements) %}
+                <th>{{ headers[i].replace("_", " ") }}</th>
+            {% endfor %}
+        </tr>
+            {% for i in range(0, num_of_values) %}
+                <tr>
+                    {% for j in range(0, num_of_elements) %}
+                        <td>{{ last_values[j][i] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+    </table>
+    {% include "footer.html" %}
+</body>
+</html>

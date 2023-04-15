@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Data Plotter</title>
+    <link rel="stylesheet", href="{{url_for('static', filename='styles.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{url_for('static', filename='data_plot.js')}}"></script>
+</head>
+<body>
+    {% include "header.html" %}
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+    <a href="{{url_for('home')}}">Return to home</a>
+    {% include "footer.html" %}
+</body>
+<script>
+    plot_multipleData(document.getElementById('myChart'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}},
+        {{legend|tojson|safe}}, '{{title}}', '{{x_label}}', '{{y_label}}')
+</script>
+</html>
