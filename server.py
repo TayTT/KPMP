@@ -4,6 +4,7 @@ import datetime
 import sqlite3
 import pandas as pd
 import numpy as np
+from peaks import find_peaks_magn
 
 # create Flask app
 app = Flask(__name__)
@@ -55,34 +56,27 @@ def home():
                            last_values=last_values)
 
 
-@app.route("/plot-data", methods=["GET"])
-def plot_data():
+@app.route("/plot-data/<num>", methods=["GET"])
+def plot_data(num):
     con = sqlite3.connect("instance/KPMP.db")
-    df = pd.read_sql_query("SELECT * from KPMP ", con)
-
-    print(df)
+    df = pd.read_sql_query(f"SELECT * from KPMP WHERE pack_id = {num}", con)
     con.close()
-    df["throw"] = np.zeros(len(df))
-    t = [1,2]
-    df["throw"].iloc[t] = 1
-    vals = df["mag_diff"].iloc[t].values.tolist()
+    peaks_idx = find_peaks_magn(df)
 
-    x_data = df[df.columns[2]].values.tolist()
-    y_data_temp = df[df.columns[4]].values.tolist()
-    y_data_hum = df[df.columns[5]].values.tolist()
-    #y_data_magn = [df[df.columns[i]].values.tolist() for i in range(3, 5)]
-    y_data_magn = [df[df.columns[3]].values.tolist(), df["mag_diff"].iloc[t].values.tolist()]
-    new_list = [x_data[a] for a in t]
+    x_data = df[df.columns[3]].values.tolist()
+    y_data_temp = df["temp"].values.tolist()
+    y_data_hum = df["hum"].values.tolist()
+    y_data_magn = [df["mag_diff"].values.tolist(), df["mag_diff"].iloc[peaks_idx].values.tolist()]
+    new_list = [x_data[peak] for peak in peaks_idx]
+    print(x_data)
     x_data_magn = [x_data, new_list]
-    print(y_data_magn)
-
 
     return render_template("data_plot.html",
                            date_year=datetime.date.today().year,
                            x_data=x_data,
                            x_data_magn =x_data_magn,
                            y_data_magn=y_data_magn,
-                           legend_magn=["magnituda", "magnituda"],
+                           legend_magn=["magnituda", "wykryty rzut"],
                            y_data_temp=y_data_temp, 
                            legend_temp="temperatura",
                            y_data_hum=y_data_hum,
@@ -127,7 +121,7 @@ def KPMP_choice():
             return redirect(url_for('home'))
         # jak wszystko git
         else:
-            return redirect(url_for('plot_data'))
+            return redirect(url_for('plot_data', num=request.form.get('num')))
     else:
         return redirect(url_for('plot_data'))
 
