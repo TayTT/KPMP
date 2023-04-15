@@ -1,3 +1,38 @@
+/************************************************************************************************/
+// ESP8266_FB_BasicMPU code for device measuring status of package. It's temperature, humidity
+// jerk, package id and courier id for 2023 Best Hacking League Hackathon.
+// 2023-04-16 by Biomed po przejsciach team
+// Code should be available at https://github.com/TayTT/KPMP branch arduino
+//
+// For code working properly create secrets.h file containing:
+//     #define HTTP_PATH http://path-to-server/request
+//     const char ssid[] = "your-sssid";
+//     const char password[] = "your-password";
+// 
+//----------------------------------------------------------------------------------------------//
+
+/************************************************************************************************/
+
+/* ============================================
+ESP8266_FB_BasicMPU code is placed under the MIT license
+Copyright (c) 2023 Biomed po przejsciach
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+===============================================
+*/
 
 /******************************************* INCLUDES *******************************************/
 
@@ -287,7 +322,7 @@ void loop() {
   Serial.println(http_msg);
 #endif
     
-    http.begin("http://192.168.83.221:5000/KPMP-data"); //HTTP
+    http.begin(HTTP_PATH); //HTTP
     http.addHeader("Content-Type", "application/json");
 
     int httpCode = http.POST(http_msg);
