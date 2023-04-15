@@ -112,7 +112,7 @@ def get_all_data():
 @app.route("/last", methods=["GET"])
 def get_last_data():
     try:
-        KPMP_datatable = db.session.query(KPMP).order_by(Weather.id.desc()).first()
+        KPMP_datatable = db.session.query(KPMP).order_by(KPMP.id.desc()).first()
     except Exception as e:
         print(e)
         return jsonify(response={"error": f"Reading KPMP data failed. Error description {e}"}), 404
@@ -184,13 +184,14 @@ def KPMP_data():
         data = request.get_json()
 
         try:
-            new_data = Weather(receive_time=datetime.datetime.today(),
-                               sht31_temp=data["temperature"],
-                               sht31_hum=data["humidility"],
-                               dht11_temp=data["acc_x"],
-                               dht11_hum=data["acc_y"],
-                               dht22_temp=data["acc_z"]
+            new_data = KPMP(receive_time=datetime.datetime.today(),
+                               temp=data["temperature"],
+                               hum=data["humidility"],
+                               acc_x=data["acc_x"],
+                               acc_y=data["acc_y"],
+                               acc_z=data["acc_z"]
                                )
+
             db.session.add(new_data)
             db.session.commit()
         except Exception as e:
