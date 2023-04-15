@@ -10,12 +10,27 @@
 <body>
     {% include "header.html" %}
     <div>
-        <canvas id="myChart"></canvas>
     </div>
+    <table style="width:100%">
+  <tr>
+      <th style="width:50%"></th>
+  </tr>
+  <tr>
+    <td><canvas id="myChart1"></canvas></td>
+    <td><canvas id="myChart2"></canvas></td>
+  </tr>
+  <tr>
+    <td><canvas id="myChart3"></canvas></td>
+    <td><canvas id="myChart4"></canvas></td>
+  </tr>
+</table>
     <a href="{{url_for('home')}}">Return to home</a>
     {% include "footer.html" %}
 </body>
 <script>
-    plot_weatherData(document.getElementById('myChart'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
+    plot_weatherData(document.getElementById('myChart1'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
+    plot_weatherData(document.getElementById('myChart2'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
+    plot_weatherData(document.getElementById('myChart3'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
+    plot_weatherData(document.getElementById('myChart4'), {{x_data|tojson|safe}}, {{y_data|tojson|safe}}, '{{legend}}', '{{title}}', '{{x_label}}', '{{y_label}}')
 </script>
 </html>
