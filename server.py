@@ -27,7 +27,7 @@ class KPMP(db.Model):
 
     def to_dict(self):
         return {
-            "id": self.id,
+            "pack_id": self.pack_id,
             "time": self.receive_time,
             "temperature": self.temp,
             "humidility": self.hum,
