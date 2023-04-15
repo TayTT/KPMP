@@ -9,13 +9,13 @@ app = Flask(__name__)
 app.secret_key = "TopSecretAPIKey"
 
 # Connect to Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///KPNP.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///KPMP.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 
-class KPNP(db.Model):
+class KPMP(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     receive_time = db.Column(db.DateTime, nullable=False)
     temp = db.Column(db.Float, nullable=True)
@@ -42,8 +42,8 @@ with app.app_context():
 @app.route('/index')
 def home():
     num_of_values = 5
-    con = sqlite3.connect("instance/KPNP.db")
-    df = pd.read_sql_query(f"SELECT * from KPNP ORDER BY id DESC LIMIT {num_of_values}", con)
+    con = sqlite3.connect("instance/KPMP.db")
+    df = pd.read_sql_query(f"SELECT * from KPMP ORDER BY id DESC LIMIT {num_of_values}", con)
     con.close()
 
     last_values = [df[column].values.tolist() for column in df.columns]
@@ -59,8 +59,8 @@ def home():
 def plot_last_24hours():
     try:
         yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        con = sqlite3.connect("instance/KPNP.db")
-        df = pd.read_sql_query(f"SELECT * from KPNP WHERE receive_time >= '{yesterday}'", con)
+        con = sqlite3.connect("instance/KPMP.db")
+        df = pd.read_sql_query(f"SELECT * from KPMP WHERE receive_time >= '{yesterday}'", con)
         con.close()
     except Exception as e:
         return f"Error! {e}"
@@ -80,8 +80,8 @@ def plot_last_24hours():
 def plot_temp_24hours():
     try:
         yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        con = sqlite3.connect("instance/KPNP.db")
-        df = pd.read_sql_query(f"SELECT receive_time, temp, hum, acc_x, acc_y, acc_z from KPNP WHERE receive_time >= '{yesterday}'", con)
+        con = sqlite3.connect("instance/KPMP.db")
+        df = pd.read_sql_query(f"SELECT receive_time, temp, hum, acc_x, acc_y, acc_z from KPMP WHERE receive_time >= '{yesterday}'", con)
         
         con.close()
     except Exception as e:
@@ -103,28 +103,28 @@ def plot_temp_24hours():
 @app.route("/all", methods=["GET"])
 def get_all_data():
     try:
-        KPNP_datatable = db.session.query(KPNP).all()
+        KPMP_datatable = db.session.query(KPMP).all()
     except Exception as e:
         print(e)
-        return jsonify(response={"error": f"Reading KPNP data failed. Error description {e}"}), 404
-    return jsonify(weathers=[data.to_dict() for data in KPNP_datatable])
+        return jsonify(response={"error": f"Reading KPMP data failed. Error description {e}"}), 404
+    return jsonify(weathers=[data.to_dict() for data in KPMP_datatable])
 
 @app.route("/last", methods=["GET"])
 def get_last_data():
     try:
-        KPNP_datatable = db.session.query(KPNP).order_by(Weather.id.desc()).first()
+        KPMP_datatable = db.session.query(KPMP).order_by(Weather.id.desc()).first()
     except Exception as e:
         print(e)
-        return jsonify(response={"error": f"Reading KPNP data failed. Error description {e}"}), 404
-    if KPNP_datatable is not None:
-        return jsonify(weathers=KPNP.to_dict())
+        return jsonify(response={"error": f"Reading KPMP data failed. Error description {e}"}), 404
+    if KPMP_datatable is not None:
+        return jsonify(weathers=KPMP.to_dict())
     else:
         return jsonify(responseget_last_data={"error": "No entries in database"}), 400
 
 @app.route("/plot-data", methods=["GET"])
 def plot_data():
-    con = sqlite3.connect("instance/KPNP.db")
-    df = pd.read_sql_query("SELECT * from KPNP ", con)
+    con = sqlite3.connect("instance/KPMP.db")
+    df = pd.read_sql_query("SELECT * from KPMP ", con)
 
     con.close()
 
@@ -141,8 +141,8 @@ def plot_data():
 @app.route("/plot-all")
 def plot_all():
     try:
-        con = sqlite3.connect("instance/KPNP.db")
-        df = pd.read_sql_query("SELECT * from KPNP ", con)
+        con = sqlite3.connect("instance/KPMP.db")
+        df = pd.read_sql_query("SELECT * from KPMP ", con)
         con.close()
     except Exception as e:
         return f"Error! {e}"
@@ -161,8 +161,8 @@ def plot_all():
 @app.route("/plot/<sensor_name>")
 def plot_one(sensor_name):
     try:
-        con = sqlite3.connect("instance/KPNP.db")
-        df = pd.read_sql_query(f"SELECT receive_time, {sensor_name} from KPNP ", con)
+        con = sqlite3.connect("instance/KPMP.db")
+        df = pd.read_sql_query(f"SELECT receive_time, {sensor_name} from KPMP ", con)
         con.close()
     except Exception as e:
         return f"Error! {e}"
@@ -178,8 +178,8 @@ def plot_one(sensor_name):
                                y_label="temperature [\u00B0C]")
 
 # create record
-@app.route('/KPNP-data', methods=["POST"])
-def KPNP_data():
+@app.route('/KPMP-data', methods=["POST"])
+def KPMP_data():
     if request.is_json:
         data = request.get_json()
 
@@ -195,9 +195,9 @@ def KPNP_data():
             db.session.commit()
         except Exception as e:
             print(e)
-            return jsonify(response={"error": f"Adding KPNP data failed. Error description {e}"}), 404
+            return jsonify(response={"error": f"Adding KPMP data failed. Error description {e}"}), 404
         else:
-            return jsonify(response={"success": "KPNP data added successfully"}), 200
+            return jsonify(response={"success": "KPMP data added successfully"}), 200
 
 
 if __name__ == '__main__':
