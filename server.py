@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import sqlite3
@@ -200,6 +200,21 @@ def KPMP_data():
         else:
             return jsonify(response={"success": "KPMP data added successfully"}), 200
 
+@app.route('/KPMP_choice', methods=['POST', 'GET'])
+def KPMP_choice():
+    if request.method == 'POST':
+        # jeśli pole jest puste
+        if request.form.get('num') == '':
+            return redirect(url_for('home'))
+        # jeśli tych danych nie ma w bazie
+        elif KPMP.query.filter_by(id=request.form.get('num')).first() is None:
+            print("nie ma tego w bazie")
+            return redirect(url_for('home'))
+        # jak wszystko git
+        else:
+            return redirect(url_for('plot_data'))
+    else:
+        return redirect(url_for('plot_data'))
 
 if __name__ == '__main__':
     # app.run(host='192.168.1.100', port=5000)
