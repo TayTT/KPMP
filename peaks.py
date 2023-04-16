@@ -8,7 +8,7 @@ def find_peaks_magn(df):
     print(df)
     diff_mag = df["mag_diff"].to_numpy()
 
-    peaks, _ = sc.find_peaks(diff_mag, distance=150, height = 10_000)
+    peaks, _ = sc.find_peaks(diff_mag, distance=50, height = 10_000)
     np.diff(peaks)
 
     mask = diff_mag[peaks] > 20_000
