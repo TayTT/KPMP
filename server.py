@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import sqlite3
@@ -112,19 +112,21 @@ def KPMP_data():
 
 @app.route('/KPMP_choice', methods=['POST', 'GET'])
 def KPMP_choice():
+    popup = False
     if request.method == 'POST':
         # jeśli pole jest puste
         if request.form.get('num') == '':
             return redirect(url_for('home'))
         # jeśli tych danych nie ma w bazie
         elif KPMP.query.filter_by(pack_id=request.form.get('num')).first() is None:
-            print("nie ma tego w bazie")
-            return redirect(url_for('home'))
+            popup = True
+            return render_template('index.html', popup=popup)
         # jak wszystko git
         else:
             return redirect(url_for('plot_data', num=request.form.get('num')))
     else:
         return redirect(url_for('plot_data'))
+
 
 if __name__ == '__main__':
     # app.run(host='192.168.83.221', port=5000)
