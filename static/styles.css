@@ -25,6 +25,10 @@ td {
     width: 50%
 }
 
+tr {
+    height: 45%
+}
+
 
 
 /*tr:nth-child(even) {
