@@ -80,10 +80,11 @@ def plot_data(num):
                            legend_temp="temperatura",
                            y_data_hum=y_data_hum,
                            legend_hum="wilgotność",
-                           x_label=df.columns[1],
-                           y_label_magn="[j.u.]",
-                           y_label_temp="[*C]",
-                           y_label_hum="[%]",
+                           # x_label=df.columns[3],
+                           x_label = "data",
+                           y_label_magn="poziom wstarzsow[j.u.]",
+                           y_label_temp="temperatura [*C]",
+                           y_label_hum="wilgotność [%]",
                            courier_len=len(courier_list),
                            couriers=courier_list)
 
@@ -129,5 +130,5 @@ def KPMP_choice():
 
 
 if __name__ == '__main__':
-    # app.run(host='192.168.83.221', port=5000)
-    app.run(debug=True)
+    app.run(host='192.168.83.221', port=5000)
+    # app.run(debug=True)

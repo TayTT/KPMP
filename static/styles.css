@@ -1,6 +1,7 @@
 body {
     background-color: #232327;
     color: #f0f0f0;
+    font-family: 'Roboto Mono', monospace;
 }
 
 table, th, td, caption {
@@ -20,9 +21,15 @@ th, td, caption {
     padding: 5px 10px 0 10px;
 }
 
-tr:nth-child(even) {
-    background-color: #434347;
+td {
+    width: 50%
 }
+
+
+
+/*tr:nth-child(even) {
+    background-color: #434347;
+}*/
 
 /*tr:hover {
     background-color: lightgray;

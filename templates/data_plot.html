@@ -9,12 +9,7 @@
 </head>
 <body>
     {% include "header.html" %}
-    <div>
-    </div>
     <table style="width:100%">
-  <tr>
-      <th style="width:50%"></th>
-  </tr>
   <tr>
     <td><canvas id="myChart1"></canvas></td>
     <td><canvas id="myChart2"></canvas></td>
@@ -25,7 +20,7 @@
       <h3>Ci kurierzy rzucali Twoją paczką!</h3>
       <ul>
         {% for i in range(0, courier_len)%}
-        <li>złamas o indeksie {{couriers[i]}} w dniu {{x_data_magn[1][i]}} pieprznął paczką</li>
+        <li>złamas o indeksie {{couriers[i]}} w dniu {{x_data_magn[1][i]}} pieprznął paczką z wynikiem {{y_data_magn[1][i]}}</li>
         {%endfor%}
       </ul>
 
@@ -38,8 +33,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js" integrity="sha512-wUYbRPLV5zs6IqvWd88HIqZU/b8TBx+I8LEioQ/UC0t5EMCLApqhIAnUg7EsAzdbhhdgW07TqYDdH3QEXRcPOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     plot_singleData(document.getElementById('myChart1'), {{x_data|tojson|safe}}, {{y_data_temp|tojson|safe}}, '{{legend_temp}}', 'Temperatura paczki', '{{x_label}}', '{{y_label_temp}}')
-    plot_magnData(document.getElementById('myChart2'), {{x_data_magn|tojson|safe}}, {{y_data_magn|tojson|safe}}, {{legend_magn|tojson|safe}}, 'Wilgotnosc paczki', '{{x_label}}', '{{y_label_magn}}' )
-    plot_singleData(document.getElementById('myChart3'), {{x_data|tojson|safe}}, {{y_data_hum|tojson|safe}}, '{{legend_hum}}', 'Wstrzasy paczki', '{{x_label}}', '{{y_label_hum}}')
+    plot_magnData(document.getElementById('myChart2'), {{x_data_magn|tojson|safe}}, {{y_data_magn|tojson|safe}}, {{legend_magn|tojson|safe}}, 'Wstrzasy paczki', '{{x_label}}', '{{y_label_magn}}' )
+    plot_singleData(document.getElementById('myChart3'), {{x_data|tojson|safe}}, {{y_data_hum|tojson|safe}}, '{{legend_hum}}', 'Wilgotnosc paczki', '{{x_label}}', '{{y_label_hum}}')
 Chart.register(zoomPlugin);
 </script>
 </html>
