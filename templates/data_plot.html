@@ -21,7 +21,15 @@
   </tr>
   <tr>
     <td><canvas id="myChart3"></canvas></td>
-    <td><canvas id="myChart4"></canvas></td>
+    <td>
+      <h3>Ci kurierzy rzucali Twoją paczką!</h3>
+      <ul>
+        {% for i in range(0, courier_len)%}
+        <li>złamas o indeksie {{couriers[i]}} w dniu {{x_data_magn[1][i]}} pieprznął paczką</li>
+        {%endfor%}
+      </ul>
+
+    </td>
   </tr>
 </table>
     <a href="{{url_for('home')}}">Return to home</a>

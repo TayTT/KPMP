@@ -62,13 +62,13 @@ def plot_data(num):
     df = pd.read_sql_query(f"SELECT * from KPMP WHERE pack_id = '{num}'", con)
     con.close()
     peaks_idx = find_peaks_magn(df)
-
+    couriers = df["courier_id"].values.tolist()
     x_data = df[df.columns[3]].values.tolist()
     y_data_temp = df["temp"].values.tolist()
     y_data_hum = df["hum"].values.tolist()
     y_data_magn = [df["mag_diff"].values.tolist(), df["mag_diff"].iloc[peaks_idx].values.tolist()]
     new_list = [x_data[peak] for peak in peaks_idx]
-    print(new_list)
+    courier_list = [couriers[peak] for peak in peaks_idx]
     x_data_magn = [x_data, new_list]
     return render_template("data_plot.html",
                            date_year=datetime.date.today().year,
@@ -83,7 +83,9 @@ def plot_data(num):
                            x_label=df.columns[1],
                            y_label_magn="[j.u.]",
                            y_label_temp="[*C]",
-                           y_label_hum="[%]")
+                           y_label_hum="[%]",
+                           courier_len=len(courier_list),
+                           couriers=courier_list)
 
 # create record
 @app.route('/KPMP-data', methods=["POST"])
@@ -125,5 +127,5 @@ def KPMP_choice():
         return redirect(url_for('plot_data'))
 
 if __name__ == '__main__':
-    app.run(host='192.168.83.221', port=5000)
-    # app.run(debug=True)
+    # app.run(host='192.168.83.221', port=5000)
+    app.run(debug=True)
