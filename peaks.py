@@ -14,5 +14,5 @@ def find_peaks_magn(df):
     mask = diff_mag[peaks] > 20_000
     thrown = peaks[mask]
     print(thrown)
-
+    
     return thrown

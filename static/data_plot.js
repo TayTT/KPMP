@@ -118,11 +118,15 @@ function plot_magnData(ctx, x_data, y_data, legend, title="", x_label="", y_labe
 
     let line_dataset = {
         label: legend[0],
-        data: y_data[0],
+        data: [],
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
         fill: false,
-        yAxisID: 'y-axis-1'
+        type:'line'
+    }
+    
+    for (let i = 0; i < y_data[0].length; i++) {
+        line_dataset.data.push([x_data[0][i], y_data[0][i]])
     }
 
     let scatter_dataset = {
@@ -132,21 +136,19 @@ function plot_magnData(ctx, x_data, y_data, legend, title="", x_label="", y_labe
         backgroundColor: 'rgba(54, 162, 235, 0.5)',
         pointRadius: 5,
         pointHoverRadius: 7,
-        showLine: false,
-        yAxisID: 'y-axis-1'
+        showLine: false
     }
 
     for (let i = 0; i < y_data[1].length; i++) {
-        scatter_dataset.data.push({
-            x: dates_scat[i],
-            y: y_data[1][i]
-        })
+        scatter_dataset.data.push([x_data[1][i],y_data[1][i]])
     }
 
     let data = {
-        labels: dates_all,
+        //labels: dates_all,
         datasets: [line_dataset, scatter_dataset]
     }
+    
+    console.log(data)
 
     plot_data(ctx, data, title, x_label, y_label)
 }

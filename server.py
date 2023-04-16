@@ -68,9 +68,8 @@ def plot_data(num):
     y_data_hum = df["hum"].values.tolist()
     y_data_magn = [df["mag_diff"].values.tolist(), df["mag_diff"].iloc[peaks_idx].values.tolist()]
     new_list = [x_data[peak] for peak in peaks_idx]
-    print(x_data)
+    print(new_list)
     x_data_magn = [x_data, new_list]
-
     return render_template("data_plot.html",
                            date_year=datetime.date.today().year,
                            x_data=x_data,
