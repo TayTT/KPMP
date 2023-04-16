@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import sqlite3
@@ -62,15 +62,14 @@ def plot_data(num):
     df = pd.read_sql_query(f"SELECT * from KPMP WHERE pack_id = '{num}'", con)
     con.close()
     peaks_idx = find_peaks_magn(df)
-
+    couriers = df["courier_id"].values.tolist()
     x_data = df[df.columns[3]].values.tolist()
     y_data_temp = df["temp"].values.tolist()
     y_data_hum = df["hum"].values.tolist()
     y_data_magn = [df["mag_diff"].values.tolist(), df["mag_diff"].iloc[peaks_idx].values.tolist()]
     new_list = [x_data[peak] for peak in peaks_idx]
-    print(x_data)
+    courier_list = [couriers[peak] for peak in peaks_idx]
     x_data_magn = [x_data, new_list]
-
     return render_template("data_plot.html",
                            date_year=datetime.date.today().year,
                            x_data=x_data,
@@ -81,10 +80,13 @@ def plot_data(num):
                            legend_temp="temperatura",
                            y_data_hum=y_data_hum,
                            legend_hum="wilgotność",
-                           x_label=df.columns[1],
-                           y_label_magn="[j.u.]",
-                           y_label_temp="[*C]",
-                           y_label_hum="[%]")
+                           # x_label=df.columns[3],
+                           x_label = "data",
+                           y_label_magn="poziom wstarzsow[j.u.]",
+                           y_label_temp="temperatura [*C]",
+                           y_label_hum="wilgotność [%]",
+                           courier_len=len(courier_list),
+                           couriers=courier_list)
 
 # create record
 @app.route('/KPMP-data', methods=["POST"])
@@ -111,19 +113,21 @@ def KPMP_data():
 
 @app.route('/KPMP_choice', methods=['POST', 'GET'])
 def KPMP_choice():
+    popup = False
     if request.method == 'POST':
         # jeśli pole jest puste
         if request.form.get('num') == '':
             return redirect(url_for('home'))
         # jeśli tych danych nie ma w bazie
         elif KPMP.query.filter_by(pack_id=request.form.get('num')).first() is None:
-            print("nie ma tego w bazie")
-            return redirect(url_for('home'))
+            popup = True
+            return render_template('index.html', popup=popup)
         # jak wszystko git
         else:
             return redirect(url_for('plot_data', num=request.form.get('num')))
     else:
         return redirect(url_for('plot_data'))
+
 
 if __name__ == '__main__':
     app.run(host='192.168.83.221', port=5000)

@@ -9,11 +9,31 @@
     {% include "header.html" %}
     <h1><big><center> Kto Przerzucił Moją Paczkę?? </center></big></h1>
     <h3> 
-    <form action = "http://localhost:5000/KPMP_choice" method = "post">
+    <form action = "/KPMP_choice" method = "post">
         <p>Wprowadź numer swojej paczki:</p>
         <p><input type = "text" name = "num" />
         <input type = "submit" value = "śledź paczkę" /></p>
     </form>
+
+    {% if popup %}
+    <div class="popup" id="popup">
+        <h2> Nie znaleziono paczki! </h2>
+        <p>Wprowadź poprawny numer paczki lub skontaktuj się ze swoim przewoźnikiem.</p>
+        <button type="button" onclick="closePopup()">ojej.. </button>
+    </div>
+    {% endif %}
+
+    <script>
+        let popup = document.getElementById("popup");
+
+        function openPopup(){
+            popup.classList.add("open-popup");
+        }
+        function closePopup(){
+            popup.classList.remove("open-popup");
+        }
+        openPopup();
+    </script>
     <h6>{% include "footer.html" %}</h6>
 </body>
 </html>

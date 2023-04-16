@@ -27,7 +27,7 @@ function plot_data(ctx, data, title="", x_label="", y_label="") {
                         display: true,
                         text: x_label,
                         color: '#ffffff'
-                    },
+                    },                    
                     grid: {
                         color: '#aaaaaa'
                     },
@@ -36,7 +36,10 @@ function plot_data(ctx, data, title="", x_label="", y_label="") {
                     },
                     border: {
                         color: '#aaaaaa'
-                    }
+                    },
+                    xAxes: [{
+                        type: 'time'
+                    }]
                 }
             },
             plugins: {
@@ -57,7 +60,11 @@ function plot_data(ctx, data, title="", x_label="", y_label="") {
                     zoom:{
                         wheel:{
                             enabled: true
-                        }
+                        },
+                        drag:{
+                            enabled: true
+                        },
+                        mode: 'xy'
                     }
                 }
             }
@@ -65,7 +72,7 @@ function plot_data(ctx, data, title="", x_label="", y_label="") {
     })
 }
 
-function plot_weatherData(ctx, x_data, y_data, legend, title="", x_label="", y_label="") {
+function plot_singleData(ctx, x_data, y_data, legend, title="", x_label="", y_label="") {
 
     let dates = []
     x_data.forEach(date=> dates.push(new Date(date).toUTCString()))
@@ -75,7 +82,8 @@ function plot_weatherData(ctx, x_data, y_data, legend, title="", x_label="", y_l
         datasets: [{
             label: legend,
             data: y_data,
-            borderWidth: 1
+            pointRadius: 0,
+            borderWidth: 2
         }]
     }
 
@@ -114,35 +122,37 @@ function plot_magnData(ctx, x_data, y_data, legend, title="", x_label="", y_labe
 
     let line_dataset = {
         label: legend[0],
-        data: y_data[0],
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
+        data: [],
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 2,
+        pointRadius: 0,
         fill: false,
-        yAxisID: 'y-axis-1'
+    }
+    
+    for (let i = 0; i < y_data[0].length; i++) {
+        line_dataset.data.push([x_data[0][i], y_data[0][i]])
     }
 
     let scatter_dataset = {
         label: legend[1],
         data: [],
-        borderColor: 'rgba(54, 162, 235, 1)',
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        showLine: false,
-        yAxisID: 'y-axis-1'
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(255, 99, 132, 1)',
+        pointRadius: 7,
+        pointHoverRadius: 10,
+        showLine: false
     }
 
-    for (let i = 0; i < y_data[1].length; i++) {
-        scatter_dataset.data.push({
-            x: dates_scat[i],
-            y: y_data[1][i]
-        })
+    for (let i = 0; i < x_data[1].length; i++) {
+       scatter_dataset.data.push([x_data[1][i],y_data[1][i]])
     }
 
     let data = {
-        labels: dates_all,
+        //labels: dates_all,
         datasets: [line_dataset, scatter_dataset]
     }
+    
+    console.log(data)
 
     plot_data(ctx, data, title, x_label, y_label)
 }

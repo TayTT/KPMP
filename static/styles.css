@@ -1,6 +1,7 @@
 body {
     background-color: #232327;
     color: #f0f0f0;
+    font-family: 'Roboto Mono', monospace;
 }
 
 table, th, td, caption {
@@ -20,9 +21,19 @@ th, td, caption {
     padding: 5px 10px 0 10px;
 }
 
-tr:nth-child(even) {
-    background-color: #434347;
+td {
+    width: 50%
 }
+
+tr {
+    height: 45%
+}
+
+
+
+/*tr:nth-child(even) {
+    background-color: #434347;
+}*/
 
 /*tr:hover {
     background-color: lightgray;
@@ -40,6 +51,38 @@ a:hover {
 
 a:active {
   text-decoration: underline;
+}
+
+.popup{
+    width: 400px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 0 30px 30px;
+    color: #333;
+    visibility: hidden;
+}
+
+.open-popup{
+    visibility: visible;
+}
+
+.popup button{
+    width: 100%;
+    margin-top: 50px;
+    padding: 10px 0;
+    background: #D30000;
+    color: #fff;
+    border: 0;
+    outline: none;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /*.navbar {*/
